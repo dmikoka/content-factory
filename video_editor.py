@@ -1,15 +1,18 @@
 import requests
 import json
 import time
+import os
+from dotenv import load_dotenv
 
 class VideoEditor:
     def __init__(self, api_key=None):
-        # Можно передать ключ явно или прописать здесь
-        self.api_key = api_key or "tCXND55PaAJfuunBAFkVAT2r1cH04FkgxxKBec14"
-        #self.api_key = api_key or "yqVjXom8wxNuIL0v6uAlloKfG45yr3D9iszde9Qu"
+        load_dotenv()  # загружаем переменные из .env
+        self.api_key = api_key or os.getenv('SHOTSTACK_API_KEY')
+        if not self.api_key:
+            raise ValueError("API key not found. Please set SHOTSTACK_API_KEY in .env file or pass it to constructor")
 
-        #self.api_url = "https://api.shotstack.io/v1"
-        self.api_url = "https://api.shotstack.io/stage"
+        self.api_url = "https://api.shotstack.io/v1"
+        #self.api_url = "https://api.shotstack.io/stage"
 
         self.headers = {
             "x-api-key": self.api_key,
