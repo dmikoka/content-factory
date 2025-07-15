@@ -11,8 +11,8 @@ class VideoEditor:
         if not self.api_key:
             raise ValueError("API key not found. Please set SHOTSTACK_API_KEY in .env file or pass it to constructor")
 
-        self.api_url = "https://api.shotstack.io/v1"
-        #self.api_url = "https://api.shotstack.io/stage"
+        #self.api_url = "https://api.shotstack.io/v1" #production
+        self.api_url = "https://api.shotstack.io/stage" #stage
 
         self.headers = {
             "x-api-key": self.api_key,
@@ -27,11 +27,25 @@ class VideoEditor:
                         "clips": [
                             {
                                 "asset": {
-                                    "type": "video",
-                                    "src": video_url
+                                    "type": "caption",
+                                    "src": subtitle_text,
+                                    "font": {
+                                        "size": 32,
+                                        "color": "#ffffff"
+                                    },
+                                    "background": {
+                                        "color": "#000000",
+                                        "opacity": 0.5,
+                                        "padding": 20,
+                                        "borderRadius": 12
+                                    },
+                                    "margin": {
+                                        "top": 0.05
+                                    }
                                 },
                                 "start": 0,
-                                "length": duration
+                                "length": "end",
+                                "position": "top"
                             }
                         ]
                     },
@@ -39,33 +53,14 @@ class VideoEditor:
                         "clips": [
                             {
                                 "asset": {
-                                    "type": "caption",
-                                    "src": subtitle_text,
-                                    "font": {
-                                        "family": "Open Sans",
-                                        "color": "#ffffff",
-                                        "opacity": 0.8,
-                                        "size": 24,
-                                        "lineHeight": 0.85,
-                                        "stroke": "#ff6600",
-                                        "strokeWidth": 0.8
-                                    },
-                                    "background": {
-                                        "color": "#000000",
-                                        "opacity": 0.4,
-                                        "padding": 30,
-                                        "borderRadius": 18
-                                    },
-                                    "margin": {
-                                        "top": 0.25,
-                                        "left": 0.05,
-                                        "right": 0.45
-                                    },
-                                    "trim": 2,
-                                    "speed": 1
+                                    "type": "video",
+                                    "src": video_url
                                 },
                                 "start": 0,
-                                "length": duration
+                                "length": duration,
+                                "transform": {
+                                    "rotate": {"angle": 0}
+                                }
                             }
                         ]
                     }
@@ -73,7 +68,10 @@ class VideoEditor:
             },
             "output": {
                 "format": "mp4",
-                "resolution": "mobile"
+                "size": {
+                    "width": 1080,
+                    "height": 1920
+                }
             }
         }
         
