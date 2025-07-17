@@ -77,6 +77,19 @@ class VideoEditor:
                                 }
                             }
                         ]
+                    },
+                    # Слой аудио
+                    {
+                        "clips": [
+                            {
+                                "asset": {
+                                    "type": "audio",
+                                    "src": "https://raw.githubusercontent.com/dmikoka/content-factory/main/sound_samples/the_matrix_04%20Clubbed%20To%20Death%20(Kurayamino%20Mix).mp3"
+                                },
+                                "start": 24.0,
+                                "length": "end"
+                            }
+                        ]
                     }
                 ]
             },
