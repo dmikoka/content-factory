@@ -23,25 +23,38 @@ class VideoEditor:
         data = {
             "timeline": {
                 "tracks": [
+                    # Слой субтитров
                     {
                         "clips": [
                             {
                                 "asset": {
                                     "type": "caption",
                                     "src": subtitle_text,
+                                    "width": 900,
                                     "font": {
-                                        "size": 32,
+                                        "size": 45,
                                         "color": "#ffffff"
                                     },
-                                    "background": {
-                                        "color": "#000000",
-                                        "opacity": 0.5,
-                                        "padding": 20,
-                                        "borderRadius": 12
-                                    },
-                                    "margin": {
-                                        "top": 0.05
+                                    "alignment": {
+                                        "horizontal": "center"
                                     }
+                                    # "margin": {
+                                    #     "top": 0.45
+                                    # } 
+                                },
+                                "start": 0,
+                                "length": "end",
+                                "position": "center"
+                            }
+                        ]
+                    },
+                    # Слой PNG-подложки
+                    {
+                        "clips": [
+                            {
+                                "asset": {
+                                    "type": "image",
+                                    "src": "https://raw.githubusercontent.com/dmikoka/content-factory/main/video_samples/IMG_9464.PNG"
                                 },
                                 "start": 0,
                                 "length": "end",
@@ -49,6 +62,7 @@ class VideoEditor:
                             }
                         ]
                     },
+                    # Слой видео
                     {
                         "clips": [
                             {
