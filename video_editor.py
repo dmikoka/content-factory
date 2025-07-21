@@ -11,7 +11,7 @@ class VideoEditor:
         if not self.api_key:
             raise ValueError("API key not found. Please set SHOTSTACK_API_KEY in .env file or pass it to constructor")
 
-        #self.api_url = "https://api.shotstack.io/v1" #production
+        # self.api_url = "https://api.shotstack.io/v1" #production
         self.api_url = "https://api.shotstack.io/stage" #stage
 
         self.headers = {
@@ -19,7 +19,7 @@ class VideoEditor:
             "Content-Type": "application/json"
         }
 
-    def create_video_with_subtitle(self, video_url, subtitle_text, duration=5.0):
+    def create_video_with_subtitle(self, video_url, subtitle_text, duration=5.0, audio_url=None):
         data = {
             "timeline": {
                 "tracks": [
@@ -38,9 +38,6 @@ class VideoEditor:
                                     "alignment": {
                                         "horizontal": "center"
                                     }
-                                    # "margin": {
-                                    #     "top": 0.45
-                                    # } 
                                 },
                                 "start": 0,
                                 "length": "end",
@@ -54,7 +51,7 @@ class VideoEditor:
                             {
                                 "asset": {
                                     "type": "image",
-                                    "src": "https://raw.githubusercontent.com/dmikoka/content-factory/main/video_samples/IMG_9464.PNG"
+                                    "src": "https://raw.githubusercontent.com/dmikoka/content-factory/main/video_effects/IMG_9464.PNG"
                                 },
                                 "start": 0,
                                 "length": "end",
@@ -77,19 +74,6 @@ class VideoEditor:
                                 }
                             }
                         ]
-                    },
-                    # Слой аудио
-                    {
-                        "clips": [
-                            {
-                                "asset": {
-                                    "type": "audio",
-                                    "src": "https://raw.githubusercontent.com/dmikoka/content-factory/main/sound_samples/the_matrix_04%20Clubbed%20To%20Death%20(Kurayamino%20Mix).mp3"
-                                },
-                                "start": 24.0,
-                                "length": "end"
-                            }
-                        ]
                     }
                 ]
             },
@@ -101,17 +85,28 @@ class VideoEditor:
                 }
             }
         }
-        
+        # Добавляем аудиотрек, если есть
+        if audio_url:
+            data["timeline"]["tracks"].append({
+                "clips": [
+                    {
+                        "asset": {
+                            "type": "audio",
+                            "src": audio_url
+                        },
+                        "start": 0,
+                        "length": "end"
+                    }
+                ]
+            })
         print("Отправляем запрос на рендеринг:")
         print("URL:", f"{self.api_url}/render")
         print("Headers:", json.dumps(self.headers, indent=2))
         print("Data:", json.dumps(data, indent=2))
-        
         response = requests.post(f"{self.api_url}/render", headers=self.headers, data=json.dumps(data))
         print("\nПолучен ответ:")
         print("Status code:", response.status_code)
         print("Response:", response.text)
-        
         if response.status_code in (200, 201):
             render_id = response.json()["response"]["id"]
             print(f"Рендеринг начат. ID: {render_id}")
