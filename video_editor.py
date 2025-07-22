@@ -19,7 +19,7 @@ class VideoEditor:
             "Content-Type": "application/json"
         }
 
-    def create_video_with_subtitle(self, video_url, subtitle_text, duration=5.0, audio_url=None):
+    def create_video_with_subtitle(self, video_url, subtitle_text, duration=5.0, audio_url=None):   
         data = {
             "timeline": {
                 "tracks": [
